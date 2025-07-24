@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 # Load Whisper model
 try:
-    model = whisper.load_model("base")
+    model = whisper.load_model("tiny")
 except Exception as e:
     logger.error(f"Failed to load Whisper model: {e}")
     raise Exception("Model loading failed")
