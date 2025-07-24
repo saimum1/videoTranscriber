@@ -1,0 +1,6 @@
+flask==3.0.3
+flask-cors
+python-dotenv
+openai-whisper==20240930
+nltk==3.8.1
+gunicorn==21.2.0

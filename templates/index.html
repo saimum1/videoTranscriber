@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interior Design Transcription App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for loading spinner */
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #ffffff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-gray-800 text-white min-h-screen font-sans">
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="flex flex-col items-center">
+            <div class="spinner"></div>
+            <p class="mt-4 text-lg">Transcribing...</p>
+        </div>
+    </div>
+
+    <div class="container mx-auto p-6 max-w-3xl">
+        <h1 class="text-4xl font-bold text-center mb-8">Transcription</h1>
+        
+        <!-- File Upload Section -->
+        <div class="bg-gray-800 p-8 rounded-xl shadow-lg mb-8">
+            <h2 class="text-2xl font-semibold mb-6">Upload Audio/Video File</h2>
+            <form id="uploadForm" method="POST" enctype="multipart/form-data" class="flex flex-col space-y-4">
+                <input type="file" name="file" accept=".mp3,.wav,.m4a,.mp4,.mpeg,.ogg" class="border border-gray-600 bg-gray-700 text-white p-3 rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-600 file:text-white file:hover:bg-blue-700">
+                <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">Transcribe</button>
+            </form>
+            {% if error %}
+                <p class="text-red-400 mt-4">{{ error }}</p>
+            {% endif %}
+        </div>
+        
+        <!-- Results Section -->
+        {% if transcript %}
+        <div class="bg-gray-800 p-8 rounded-xl shadow-lg">
+            <h2 class="text-2xl font-semibold mb-6">Transcription Result</h2>
+            <div class="mb-6">
+                <h3 class="text-xl font-medium mb-2">Transcript</h3>
+                <p class="text-gray-300 bg-gray-700 p-4 rounded-lg whitespace-pre-wrap">{{ transcript }}</p>
+            </div>
+            <div>
+                <a href="/download/text/{{ text_file.split('/')[-1] }}" class="inline-block bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition">Download Text</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Handle form submission and show/hide loading modal
+        document.getElementById('uploadForm').addEventListener('submit', function() {
+            document.getElementById('loadingModal').classList.remove('hidden');
+        });
+
+        // Hide loading modal when page loads (in case of page refresh)
+        window.addEventListener('load', function() {
+            document.getElementById('loadingModal').classList.add('hidden');
+        });
+    </script>
+</body>
+</html>

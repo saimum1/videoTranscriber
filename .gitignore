@@ -1,0 +1,9 @@
+
+.flaskenv
+/.flaskenv/
+.env
+env
+.venv
+venv
+uploads
+/uploads
